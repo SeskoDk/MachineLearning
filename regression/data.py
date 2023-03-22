@@ -36,14 +36,22 @@ def custom_classification_data(N: int = 300, n_classes: int = 3,
             y.append(c)
     X = np.vstack(X)
     y = np.vstack(y)
-
     return X, y
 
 
-def main():
-    X, y = custom_classification_data()
-    plt.scatter(X[:, 0], X[:, 1], c=y)
+def plot_custom_data() -> None:
+    X_c, y_c = custom_classification_data()
+    X_r, y_r = custom_regression_data()
+
+    fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(10, 5), tight_layout=True)
+    axs[0].scatter(X_c[:, 0], X_c[:, 1], c=y_c)
+    axs[1].scatter(X_r, y=y_r)
     plt.show()
+
+
+def main():
+    plot_custom_data()
+
 
 
 if __name__ == "__main__":

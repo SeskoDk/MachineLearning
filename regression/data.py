@@ -3,6 +3,19 @@ import numpy as np
 from typing import Tuple
 
 
+def affine_function(X: np.ndarray, slope: float = 2.0, intercept: float = 5.0) -> np.ndarray:
+    return slope * X + intercept
+
+
+def dummy_linear_data(N: int = 300, value_range: Tuple = (-10, 10),
+                      mean: float = 0.0, std: float = 5.0) -> Tuple[np.ndarray, np.ndarray]:
+    LOWER_BOUND, UPPER_BOUND = value_range
+    X = np.random.uniform(low=LOWER_BOUND, high=UPPER_BOUND, size=N)
+    noise = np.random.normal(loc=mean, scale=std, size=N)
+    y = affine_function(X) + noise
+    return X, y
+
+
 def dummy_classification_data(N: int = 300, n_classes: int = 3,
                               feat_dim: int = 2, seed: int = 1) -> Tuple[np.ndarray, np.ndarray]:
     if N % n_classes != 0:
@@ -21,8 +34,8 @@ def dummy_classification_data(N: int = 300, n_classes: int = 3,
             r_sample = np.random.normal(loc=mean, scale=std, size=feat_dim)
             X.append(r_sample)
             y.append(c)
-    X = np.vstack(X)  # N x feat_dim
-    y = np.vstack(y)  # N x 1
+    X = np.vstack(X)
+    y = np.vstack(y)
 
     return X, y
 

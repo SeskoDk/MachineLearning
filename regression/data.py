@@ -16,7 +16,7 @@ def custom_regression_data(N: int = 300, boundaries: Tuple = (-10, 10),
     return X, y
 
 
-def custom_classification_data(N: int = 300, n_classes: int = 3,
+def custom_classification_data(N: int = 300, n_classes: int = 4,
                                feat_dim: int = 2, seed: int = 1) -> Tuple[np.ndarray, np.ndarray]:
     if N % n_classes != 0:
         raise ValueError("Sample size N must be divisible by the number of classes.")
@@ -59,7 +59,6 @@ def binary_classification_data(N: int = 300) -> Tuple[np.ndarray, np.ndarray]:
     X = np.concatenate((X_class1, X_class2))
     y = np.concatenate((y_class1, y_class2))
     return X, y
-
 
 
 def plot_custom_data() -> None:

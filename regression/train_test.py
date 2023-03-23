@@ -21,16 +21,13 @@ def load_data(n_samples: int = 1000, category: str = "regression") -> Tuple[torc
 
 
 def train_test_split(data: np.ndarray, targets: np.ndarray, split_ratio: Tuple = (3, 1),
-                     shuffle: bool = True) -> Tuple[np.ndarray, np.ndarray]:
+                     shuffle: bool = True, train_size: float = 0.8) -> Tuple[np.ndarray, np.ndarray]:
     N_SAMPLES = len(data)
-    SPLIT_UNIT = N_SAMPLES // np.sum(split_ratio)
+    TRAIN_SPLIT_INDEX = int(N_SAMPLES * train_size)
 
     INDICES = np.arange(N_SAMPLES)
     if shuffle:
         np.random.shuffle(INDICES)
-
-    TRAIN_SPLIT_INDEX = split_ratio[0] * SPLIT_UNIT
-    TEST_SPLIT_INDEX = split_ratio[1] * SPLIT_UNIT
 
     train_indices = INDICES[: TRAIN_SPLIT_INDEX]
     test_indices = INDICES[TRAIN_SPLIT_INDEX:]

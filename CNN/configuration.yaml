@@ -1,0 +1,8 @@
+path: .\data
+learning_rate: 0.002
+batch_size: 64
+epochs: 1000
+
+MNIST:
+  mean: 0.1307
+  std: 0.3081

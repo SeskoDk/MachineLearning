@@ -4,6 +4,7 @@ import torch.nn as nn
 
 class LeNet5(nn.Module):
     def __init__(self, in_channels: int = 1, num_classes: int = 10) -> None:
+
         super(LeNet5, self).__init__()
         self.conv1 = nn.Conv2d(in_channels, out_channels=6, kernel_size=5)
         self.avg1 = nn.AvgPool2d(kernel_size=2)

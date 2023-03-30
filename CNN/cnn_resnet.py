@@ -82,7 +82,7 @@ def transform_load_CIFAR10(transform: transforms.Compose, batch_size: int, downl
 
 
 def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.optim.Optimizer,
-                criterion: torch.nn.modules.loss, epochs: int, device: str):
+                criterion: torch.nn.modules.loss, epochs: int, device: str) -> None:
     model.train()
     for epoch in range(epochs):
         losses = []

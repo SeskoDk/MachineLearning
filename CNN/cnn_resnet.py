@@ -137,10 +137,10 @@ def eval_model(model: SimpleResNet, data_loader: DataLoader, criterion: torch.nn
 
 def main():
     # Hyperparameters
-    BATCH_SIZE = 256
+    BATCH_SIZE = 512
     CHANNELS = 3
     LEARNING_RATE = 0.002
-    EPOCHS = 10
+    EPOCHS = 50
     MEAN = (0.5,)
     STD = (0.5,)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"

@@ -78,11 +78,14 @@ def transform_load_CIFAR10(transform: transforms.Compose, batch_size: int, downl
     test_set = torchvision.datasets.CIFAR10(root='./data', train=False, download=download, transform=transform)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=2)
 
+    print('Training size: {:4}\nTest size: {:9}'.format(len(train_set), len(test_set)))
+
     return train_loader, test_loader
 
 
 def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.optim.Optimizer,
                 criterion: torch.nn.modules.loss, epochs: int, device: str) -> None:
+    print("Start training:")
     model.train()
     for epoch in range(epochs):
         losses = []
@@ -106,16 +109,38 @@ def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.o
 
         accuracy = torch.Tensor(accuracies).mean()
         loss = torch.Tensor(losses).mean()
+        print(f"Epoch {epoch + 1:{len(str(epochs))}}/{epochs}, ACC: {accuracy.item():.2f}, MSC_Loss: {loss.item():.3f}")
 
-        print(f"Epoch {epoch}/{epochs}: ACC: {round(accuracy.item(), 2)}, MSC_Loss: {round(loss.item(), 3)}")
+    print("Finished training")
+
+
+def eval_model(model: SimpleResNet, data_loader: DataLoader, criterion: torch.nn.modules.loss, device: str) -> None:
+    print("Start evaluation:")
+    model.eval()
+
+    with torch.no_grad():
+        for idx, (features, targets) in enumerate(data_loader):
+            features = features.to(device)
+            targets = targets.to(device)
+
+            predictions = model(features)
+            loss = criterion(predictions, targets)
+
+            targets_pred = torch.argmax(predictions, dim=1)
+            acc = (targets_pred == targets).sum() / targets.size(0) * 100
+
+            if idx % 5 == 0:
+                print(f"Epoch {idx}, ACC: {acc.item():.2f}, MSC_Loss: {loss.item():.3f}")
+
+    print("Finished evaluation")
 
 
 def main():
     # Hyperparameters
-    BATCH_SIZE = 10
+    BATCH_SIZE = 256
     CHANNELS = 3
-    LEARNING_RATE = 0.001
-    EPOCHS = 50
+    LEARNING_RATE = 0.002
+    EPOCHS = 10
     MEAN = (0.5,)
     STD = (0.5,)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -134,6 +159,8 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     train_model(model, train_loader, optimizer, criterion, EPOCHS, DEVICE)
+
+    eval_model(model, test_loader, criterion, DEVICE)
 
 
 if __name__ == "__main__":

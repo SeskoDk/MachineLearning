@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 
 class ResidualBlock(nn.Module):
     """
-    ResNet with identity blocks.
+    Residual block with identity connection.
     https://arxiv.org/abs/1512.03385
     """
 

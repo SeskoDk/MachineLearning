@@ -83,8 +83,9 @@ def transform_load_CIFAR10(transform: transforms.Compose, batch_size: int, downl
     return train_loader, test_loader
 
 
-def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.optim.Optimizer,
+def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.optim.Optimizer, 
                 criterion: torch.nn.modules.loss, epochs: int, device: str) -> None:
+    
     print("Start training:")
     model.train()
     for epoch in range(epochs):
@@ -109,6 +110,7 @@ def train_model(model: SimpleResNet, data_loader: DataLoader, optimizer: torch.o
 
         accuracy = torch.Tensor(accuracies).mean()
         loss = torch.Tensor(losses).mean()
+
         print(f"Epoch {epoch + 1:{len(str(epochs))}}/{epochs}, ACC: {accuracy.item():.2f}, MSC_Loss: {loss.item():.3f}")
 
     print("Finished training")
@@ -133,6 +135,7 @@ def eval_model(model: SimpleResNet, data_loader: DataLoader, criterion: torch.nn
                 print(f"Epoch {idx}, ACC: {acc.item():.2f}, MSC_Loss: {loss.item():.3f}")
 
     print("Finished evaluation")
+
 
 
 def main():
@@ -161,7 +164,6 @@ def main():
     train_model(model, train_loader, optimizer, criterion, EPOCHS, DEVICE)
 
     eval_model(model, test_loader, criterion, DEVICE)
-
 
 if __name__ == "__main__":
     main()

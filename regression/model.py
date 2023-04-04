@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 
 
-class LinearRegression(nn.Module) -> None:
-    def __init__(self, input_size: int = 1, output_size: int = 1):
+class LinearRegression(nn.Module):
+    def __init__(self, input_size: int = 1, output_size: int = 1) -> None:
         super(LinearRegression, self).__init__()
         self.linear = nn.Linear(in_features=input_size, out_features=output_size, bias=True)
 
